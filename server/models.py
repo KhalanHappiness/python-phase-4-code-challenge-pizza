@@ -21,7 +21,7 @@ class Restaurant(db.Model, SerializerMixin):
     address = db.Column(db.String)
 
     # add relationship
-    restaurant_pizzas = db.relationship('RestaurantPizza', back_populates= 'restaurant' )
+    restaurant_pizzas = db.relationship('RestaurantPizza', back_populates= 'restaurant', cascade = "all, delete-orphan" )
 
 
     # add serialization rules
@@ -38,7 +38,7 @@ class Pizza(db.Model, SerializerMixin):
     ingredients = db.Column(db.String)
 
     # add relationship
-    restaurant_pizzas = db.relationship('RestaurantPizza', back_populates= 'pizza' )
+    restaurant_pizzas = db.relationship('RestaurantPizza', back_populates= 'pizza', cascade = "all, delete-orphan")
 
     # add serialization rules
 
