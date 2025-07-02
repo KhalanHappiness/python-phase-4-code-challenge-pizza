@@ -74,11 +74,30 @@ class RestaurantsById(Resource):
         db.session.commit()
         
         return '', 204
+    
+class Pizzas(Resource):
+   
+
+        def get(self):
+
+            pizzas = Pizza.query.all()
+
+            pizza_dict = [pizza.to_dict(rules = ("-restaurant_pizzas",)) for pizza in pizzas]
+
+            response = make_response(
+                pizza_dict,
+                200
+            )
+
+            return response
+
         
 
     
 api.add_resource(Restaurants, '/restaurants')
 api.add_resource(RestaurantsById, '/restaurants/<int:id>')
+api.add_resource(Pizzas, '/pizzas')
+
 
 
 
