@@ -39,7 +39,23 @@ class Restaurants (Resource):
 
         return response
     
+class RestaurantsById(Resource):
+
+    def get(self, id):
+
+        restaurant = Restaurant.query.filter(Restaurant.id == id ).first()
+
+        restaurant_dict = restaurant.to_dict()
+
+        response = make_response(
+            restaurant_dict,
+            200
+        )
+
+        return response
+    
 api.add_resource(Restaurants, '/restaurants')
+api.add_resource(RestaurantsById, '/restaurants/<int:id>')
 
 
 
