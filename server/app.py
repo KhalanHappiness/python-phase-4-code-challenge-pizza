@@ -45,14 +45,37 @@ class RestaurantsById(Resource):
 
         restaurant = Restaurant.query.filter(Restaurant.id == id ).first()
 
-        restaurant_dict = restaurant.to_dict()
+        
 
-        response = make_response(
-            restaurant_dict,
-            200
-        )
+        if restaurant:
 
-        return response
+            restaurant_dict = restaurant.to_dict()
+            response = make_response(
+                restaurant_dict,
+                200
+            )
+
+            return response
+        
+        else:
+
+            return make_response(
+                {"error":"Restaurant not found"},
+                404)
+        
+    def delete(self, id):
+        restaurant = Restaurant.query.get(id)
+
+        if restaurant is None:
+            return make_response(
+                {"error": "Restaurant not found"}, 
+                404)
+        db.session.delete(restaurant)
+        db.session.commit()
+        
+        return '', 204
+        
+
     
 api.add_resource(Restaurants, '/restaurants')
 api.add_resource(RestaurantsById, '/restaurants/<int:id>')
